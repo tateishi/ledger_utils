@@ -23,7 +23,7 @@ def hello():
 
 
 @app.command()
-def count(path: Path):
+def count_payee(path: Path):
     if not path.exists():
         raise typer.BadParameter(f"{path}は存在しません")
 
