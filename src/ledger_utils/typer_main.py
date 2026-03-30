@@ -1,19 +1,21 @@
+from collections import Counter
 from pathlib import Path
 
 import typer
 
 from ledger_utils.count import payee_count
 
-from collections import Counter
-
 app = typer.Typer()
 
-def iter_ledger_files(root:Path):
-    yield from (p for p in root.rglob("*.ledger") if p.is_file())
+
+def iter_files_recursively(root: Path, pattern: str):
+    yield from (p for p in root.rglob(pattern) if p.is_file())
+
 
 def print_result(total: dict[str, int]):
     for key, value in sorted(total.items(), key=lambda x: (x[1], x[0])):
         print(f"count: {value:5d}, payee: {key}")
+
 
 @app.command()
 def hello():
@@ -22,20 +24,24 @@ def hello():
 
 @app.command()
 def count(path: Path):
-    if not path.is_dir():
-        print(path)
+    if not path.exists():
+        raise typer.BadParameter(f"{path}は存在しません")
+
+    if path.is_file():
         data = payee_count(path)
 
-        for key, value in sorted(data.items(), key=lambda x: (x[1], x[0])):
-            print(f"count: {value:3d}, payee: {key}")
-    else:
+        print_result(data)
+
+    elif path.is_dir():
         total = Counter()
 
-        for file in iter_ledger_files(path):
+        for file in iter_files_recursively(path, "*.ledger"):
             data = payee_count(file)
             total.update(data)
 
         print_result(total)
+    else:
+        raise typer.BadParameter(f"{path} はファイルでもディレクトリでもありません")
 
 
 def main():
