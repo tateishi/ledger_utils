@@ -6,7 +6,7 @@ from pathlib import Path
 import typer
 
 from ledger_utils.count import account_count, payee_count, tags_count
-from ledger_utils.rewrite import plain_convert
+from ledger_utils.rewrite import comma_convert, plain_convert
 
 app = typer.Typer()
 
@@ -33,7 +33,12 @@ def compute_output_path(in_file: Path, in_root: Path, out_root: Path | None) -> 
     return out_root / rel
 
 
-def convert_one_file(in_file: Path, out_file: Path, encoding: str = "utf-8") -> bool:
+def convert_one_file(
+    in_file: Path,
+    out_file: Path,
+    convert: Callable[[str], str],
+    encoding: str = "utf-8",
+) -> bool:
     """
     1ファイル変換して出力。変更があったら True、無ければ False。
     """
@@ -86,7 +91,7 @@ def do_rewrite(
             continue
 
         try:
-            did_change = convert(f, out_path, encoding=encoding)
+            did_change = convert_one_file(f, out_path, convert, encoding=encoding)
             if did_change:
                 changed += 1
                 print(f"[OK]  {f} -> {out_path} (changed)")
@@ -125,6 +130,31 @@ def rewrite_plain(
         return 2
 
     return do_rewrite(input_dir, output_dir, encoding, dry_run, plain_convert)
+
+
+@app.command()
+def rewrite_comma(
+    input_dir: Path = typer.Option(None, "-i", "--input_dir", help="入力ディレクトリ"),
+    output_dir: Path = typer.Option(
+        None,
+        "-o",
+        "--output_dir",
+        help="出力ディレクトリ（未指定なら入力ファイルを上書き）",
+    ),
+    encoding: str = typer.Option(
+        "utf-8", "-e", "--encoding", help="読み書きの文字コード（デフォルト: utf-8）"
+    ),
+    dry_run: bool = typer.Option(
+        False, "-n", "--dry-run", help="書き込みせず、変換対象だけ表示"
+    ),
+) -> int:
+
+    if input_dir is None:
+        print(f"ERROR: input_dir is not a directory: {input_dir}", file=sys.stderr)
+        return 2
+
+    print(f"rewrite_comma")
+    return do_rewrite(input_dir, output_dir, encoding, dry_run, comma_convert)
 
 
 @app.command()
