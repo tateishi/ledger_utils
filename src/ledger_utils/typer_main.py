@@ -1,11 +1,11 @@
+import sys
 from collections import Counter
+from collections.abc import Callable
 from pathlib import Path
 
 import typer
 
-from ledger_utils.count import payee_count
-from ledger_utils.count import account_count
-from ledger_utils.count import tags_count
+from ledger_utils.count import account_count, payee_count, tags_count
 from ledger_utils.rewrite import plain_convert
 
 app = typer.Typer()
@@ -21,8 +21,6 @@ def print_result(total: dict[str, int], header: str | None = None):
     for key, value in sorted(total.items(), key=lambda x: (x[1], x[0])):
         print(f"{value:5d}  {key}")
 
-
-convert = plain_convert
 
 def compute_output_path(in_file: Path, in_root: Path, out_root: Path | None) -> Path:
     """
@@ -52,18 +50,14 @@ def convert_one_file(in_file: Path, out_file: Path, encoding: str = "utf-8") -> 
     out_file.write_text(converted, encoding=encoding)
     return converted != original
 
-@app.command()
-def rewrite(input_dir: Path = typer.Option(None, "-i", "--input_dir",
-                                          help="入力ディレクトリ"),
-            output_dir: Path = typer.Option(None, "-o", "--output_dir",
-                                           help="出力ディレクトリ（未指定なら入力ファイルを上書き）"),
-            encoding: str = typer.Option("utf-8", "-e", "--encoding",
-                                         help="読み書きの文字コード（デフォルト: utf-8）"),
-            dry_run: bool = typer.Option(False, "-n", "--dry-run",
-                                         help="書き込みせず、変換対象だけ表示")) -> int:
-    print(f"input_dir: {input_dir}, output_dir: {output_dir}, encoding: {encoding}, dry-run:{dry_run}")
-#    return 0
 
+def do_rewrite(
+    input_dir: Path,
+    output_dir: Path | None,
+    encoding: str,
+    dry_run: bool,
+    convert: Callable[[str], str],
+) -> int:
 
     in_root: Path = input_dir
     if not in_root.exists() or not in_root.is_dir():
@@ -92,7 +86,7 @@ def rewrite(input_dir: Path = typer.Option(None, "-i", "--input_dir",
             continue
 
         try:
-            did_change = convert_one_file(f, out_path, encoding=encoding)
+            did_change = convert(f, out_path, encoding=encoding)
             if did_change:
                 changed += 1
                 print(f"[OK]  {f} -> {out_path} (changed)")
@@ -107,6 +101,31 @@ def rewrite(input_dir: Path = typer.Option(None, "-i", "--input_dir",
 
     print(f"Processed: {processed}, Changed: {changed}")
     return 0
+
+
+@app.command()
+def rewrite_plain(
+    input_dir: Path = typer.Option(None, "-i", "--input_dir", help="入力ディレクトリ"),
+    output_dir: Path = typer.Option(
+        None,
+        "-o",
+        "--output_dir",
+        help="出力ディレクトリ（未指定なら入力ファイルを上書き）",
+    ),
+    encoding: str = typer.Option(
+        "utf-8", "-e", "--encoding", help="読み書きの文字コード（デフォルト: utf-8）"
+    ),
+    dry_run: bool = typer.Option(
+        False, "-n", "--dry-run", help="書き込みせず、変換対象だけ表示"
+    ),
+) -> int:
+
+    if input_dir is None:
+        print(f"ERROR: input_dir is not a directory: {input_dir}", file=sys.stderr)
+        return 2
+
+    return do_rewrite(input_dir, output_dir, encoding, dry_run, plain_convert)
+
 
 @app.command()
 def hello():
@@ -168,6 +187,7 @@ def count_account(path: Path):
 
     raise typer.BadParameter(f"{path} はファイルでもディレクトリでもありません")
 
+
 @app.command()
 def count_tags(path: Path):
     header = "count  tags"
@@ -194,6 +214,7 @@ def count_tags(path: Path):
         return
 
     raise typer.BadParameter(f"{path} はファイルでもディレクトリでもありません")
+
 
 def main():
     # typer.run(add)
