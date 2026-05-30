@@ -10,6 +10,12 @@ from ledger_utils.rewrite import comma_convert, plain_convert
 
 app = typer.Typer()
 
+rewrite_app = typer.Typer(help="Rewrite related command.")
+app.add_typer(rewrite_app, name="rewrite")
+
+count_app = typer.Typer(help="Count related command.")
+app.add_typer(count_app, name="count")
+
 
 def iter_files_recursively(root: Path, pattern: str):
     yield from (p for p in root.rglob(pattern) if p.is_file())
@@ -108,7 +114,8 @@ def do_rewrite(
     return 0
 
 
-@app.command()
+
+@rewrite_app.command("plain")
 def rewrite_plain(
     input_dir: Path = typer.Option(None, "-i", "--input_dir", help="入力ディレクトリ"),
     output_dir: Path = typer.Option(
@@ -132,7 +139,7 @@ def rewrite_plain(
     return do_rewrite(input_dir, output_dir, encoding, dry_run, plain_convert)
 
 
-@app.command()
+@rewrite_app.command("comma")
 def rewrite_comma(
     input_dir: Path = typer.Option(None, "-i", "--input_dir", help="入力ディレクトリ"),
     output_dir: Path = typer.Option(
@@ -162,7 +169,7 @@ def hello():
     print("hello world")
 
 
-@app.command()
+@count_app.command("payee")
 def count_payee(path: Path):
     header = "count  payee"
 
@@ -190,7 +197,7 @@ def count_payee(path: Path):
     raise typer.BadParameter(f"{path} はファイルでもディレクトリでもありません")
 
 
-@app.command()
+@count_app.command("account")
 def count_account(path: Path):
     header = "count  account"
 
@@ -218,7 +225,7 @@ def count_account(path: Path):
     raise typer.BadParameter(f"{path} はファイルでもディレクトリでもありません")
 
 
-@app.command()
+@count_app.command("tags")
 def count_tags(path: Path):
     header = "count  tags"
 
