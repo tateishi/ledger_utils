@@ -17,3 +17,6 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[project.scripts]
+ledger_utils = "ledger_utils.typer_main:app"
