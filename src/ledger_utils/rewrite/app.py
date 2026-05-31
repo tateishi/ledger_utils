@@ -2,8 +2,8 @@ from pathlib import Path
 
 import typer
 
-from ledger_utils.rewrite import comma_convert, plain_convert
-from ledger_utils.rewrite.common import compute_output_path, convert_one_file, do_rewrite
+from . import comma_convert, plain_convert
+from .common import compute_output_path, convert_one_file, do_rewrite
 
 app = typer.Typer(help="Rewrite related command.")
 

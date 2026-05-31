@@ -1,6 +1,8 @@
 from pathlib import Path
 from typing import Callable
 
+from ..tools import iter_files_recursively
+
 def compute_output_path(in_file: Path, in_root: Path, out_root: Path | None) -> Path:
     """
     out_root が None の場合は in_file 自体（上書き）。
