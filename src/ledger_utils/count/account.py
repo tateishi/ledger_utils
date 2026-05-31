@@ -1,6 +1,8 @@
 import re
 from pathlib import Path
 
+from .common import report_count
+
 POSTING_RE = re.compile(
     r"""
     ^
@@ -51,3 +53,7 @@ def count(path: Path) -> dict[str, int]:
 
     text = path.read_text()
     return counter(text)
+
+
+def report(path: Path):
+    report_count(path, "count  account", count)

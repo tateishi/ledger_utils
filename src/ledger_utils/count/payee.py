@@ -1,6 +1,8 @@
 import re
 from pathlib import Path
 
+from .common import report_count
+
 HEADER_RE = re.compile(r"^\d")
 
 HEADER_PARSE_RE = re.compile(
@@ -46,3 +48,7 @@ def count(path: Path) -> dict[str, int]:
     text = path.read_text()
 
     return counter(text)
+
+
+def report(path: Path):
+    report_count(path, "count  payee", count)

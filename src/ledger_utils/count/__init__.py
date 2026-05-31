@@ -1,9 +1,9 @@
-from .payee import count as payee_count
-from .account import count as account_count
-from .tags import count as tags_count
+from .account import report as account_report
+from .payee import report as payee_report
+from .tags import report as tags_report
 
 __all__ = [
-    "payee_count",
-    "account_count",
-    "tags_count",
+    "payee_report",
+    "account_report",
+    "tags_report",
 ]
