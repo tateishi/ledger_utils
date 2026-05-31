@@ -1,6 +1,6 @@
 import re
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 from .common import report_count
 
@@ -26,13 +26,13 @@ def counter(text: str) -> dict[str, int]:
     {PAYEE: 出現数} の辞書を返す
     """
 
-    count_dict = defaultdict(int)
+    counts = defaultdict(int)
 
     for line in text.splitlines():
-        if (m := HEADER_PARSE_RE.match(line)):
-            count_dict[m.group("payee")] += 1
+        if (m := HEADER_PARSE_RE.match(line)) and (payee := m.group("payee")):
+            counts[payee] += 1
 
-    return count_dict
+    return dict(counts)
 
 
 def count(path: Path) -> dict[str, int]:
