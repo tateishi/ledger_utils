@@ -1,4 +1,5 @@
 import re
+from collections import defaultdict
 from pathlib import Path
 
 from .common import report_count
@@ -29,21 +30,13 @@ def counter(text: str) -> dict[str, int]:
     {ACCOUNT: 出現数}の辞書を返す
     """
 
-    count_dict = dict()
+    counts = defaultdict(int)
 
-    lines = text.splitlines()
+    for line in text.splitlines():
+        if (m := POSTING_RE.match(line)) and (account := m.group("account")):
+            counts[account] += 1
 
-    for line in lines:
-        m_posting = re.match(POSTING_RE, line)
-        if m_posting is None:
-            continue
-
-        account = m_posting.group("account")
-        if account is None:
-            continue
-        count_dict[account] = count_dict.get(account, 0) + 1
-
-    return count_dict
+    return dict(counts)
 
 
 def count(path: Path) -> dict[str, int]:
