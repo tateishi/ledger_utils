@@ -19,4 +19,4 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [project.scripts]
-ledger_utils = "ledger_utils.typer_main:app"
+ledger_utils = "ledger_utils.cli:app"
