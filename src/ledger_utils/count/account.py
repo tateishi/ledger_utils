@@ -4,7 +4,7 @@ from pathlib import Path
 
 from .common import report_count
 
-POSTING_RE = re.compile(
+POSTING_RE: re.Pattern[str] = re.compile(
     r"""
     ^
     (?P<indent>\s+)                         # インデント（必須）
@@ -25,27 +25,35 @@ POSTING_RE = re.compile(
 )
 
 
-def counter(text: str) -> dict[str, int]:
+def parse_account(line: str, posting_re: re.Pattern[str] = POSTING_RE) -> str | None:
+    """
+    lineからACCOUNTを抽出する。なければNoneを返す。
+    """
+
+    if (m := posting_re.match(line)) is not None:
+        return m.group("account") or None
+    return None
+
+
+def counter(text: str, posting_re: re.Pattern[str] = POSTING_RE) -> dict[str, int]:
     """
     {ACCOUNT: 出現数}の辞書を返す
     """
 
     counts = defaultdict(int)
-
     for line in text.splitlines():
-        if (m := POSTING_RE.match(line)) and (account := m.group("account")):
+        if account := parse_account(line, posting_re):
             counts[account] += 1
-
     return dict(counts)
 
 
-def count(path: Path) -> dict[str, int]:
+def count(path: Path, posting_re: re.Pattern[str] = POSTING_RE) -> dict[str, int]:
     """
     ファイル Path に出現する accountの回数を返す
     """
 
     text = path.read_text()
-    return counter(text)
+    return counter(text, posting_re)
 
 
 def report(path: Path):
