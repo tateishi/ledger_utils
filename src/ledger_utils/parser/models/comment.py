@@ -1,5 +1,8 @@
 from dataclasses import dataclass, field
 
+from .meta import Meta
+from .tag import Tag
+
 
 @dataclass
 class Comment:

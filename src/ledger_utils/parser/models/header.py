@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from datetime import date
 
+from .comment import Comment
+
 
 @dataclass
 class Header:

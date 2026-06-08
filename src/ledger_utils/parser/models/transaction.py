@@ -1,5 +1,8 @@
 from dataclasses import dataclass, field
 
+from .header import Header
+from .posting import Posting
+
 
 @dataclass
 class Transaction:
