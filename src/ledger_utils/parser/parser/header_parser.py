@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from ledger_utils.parser.models import Header, Comment
+from ledger_utils.parser.models import Comment, Header
 
 HEADER_RE = re.compile(
     r"""
@@ -16,7 +16,10 @@ HEADER_RE = re.compile(
     re.VERBOSE,
 )
 
-def parse_header(text: str, line_no: int | None=None, filename: str | None=None) -> Header:
+
+def parse_header(
+    text: str, line_no: int | None = None, filename: str | None = None
+) -> Header:
     m = HEADER_RE.match(text)
     if not m:
         raise ValueError(f"Invalid header: {text}")
@@ -24,7 +27,8 @@ def parse_header(text: str, line_no: int | None=None, filename: str | None=None)
     gd = m.groupdict()
 
     def to_date(s: str) -> datetime | None:
-        if s is None: return None
+        if s is None:
+            return None
         for fmt in ("%Y-%m-%d", "%Y/%m/%d"):
             try:
                 return datetime.strptime(s, fmt).date()
