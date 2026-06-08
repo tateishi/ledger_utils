@@ -1,4 +1,4 @@
-from ledger_utils.parser.parser.header_parser import HEADER_RE
+from ledger_utils.parser.parser.header_parser import HEADER_RE, parse_header
 
 
 def test_header_simple():
@@ -42,3 +42,17 @@ def test_header_slash_2nd():
     assert gd["date2"] == "2025/03/20"
     assert gd["flag"] == "*"
     assert gd["description"].strip() == "利払い"
+
+def test_header_parser_simple():
+    import datetime
+    line = "2025-03-15 * 利払い"
+    header = parse_header(line)
+
+    assert header is not None
+    assert header.raw_text == line
+    assert header.date == datetime.date(2025,3,15)
+    assert header.date2 is None
+    assert header.code is None
+    assert header.flag == "*"
+    assert header.description == "利払い"
+    assert header.comment == None
