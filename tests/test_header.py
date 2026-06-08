@@ -1,4 +1,4 @@
-from ledger_utils.parser.parser.header_parser import HEADER_RE, parse_header
+from ledger_utils.parser import HEADER_RE, parse_header
 
 
 def test_header_simple():
