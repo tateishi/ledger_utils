@@ -18,5 +18,10 @@ package-dir = {"" = "src"}
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
+
 [project.scripts]
 ledger_utils = "ledger_utils.cli:app"
