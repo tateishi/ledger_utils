@@ -4,8 +4,20 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+  { name = "TATEISHI Tadatoshi", email = "ishio39@gmail.com" }
+]
+
 dependencies = [
-    "typer[all]>=0.24.1",
+    "typer>=0.26.7",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=2.1.0",
+    "pytest>=9.0.3",
+    "ruff>=0.15.16",
 ]
 
 [build-system]
@@ -17,11 +29,8 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[dependency-groups]
-dev = [
-    "pytest>=9.0.3",
-]
+exclude = ["tests"]
 
 [project.scripts]
 ledger_utils = "ledger_utils.cli:app"
+lu = "ledger_utils.cli:app"
