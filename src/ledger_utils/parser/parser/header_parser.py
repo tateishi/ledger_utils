@@ -1,7 +1,9 @@
 import re
 from datetime import datetime
 
-from ledger_utils.parser.models import Header
+from ledger_utils.parser.models import Header, Tag, Meta
+from .tags_parser import parse_tags
+from .meta_parser import parse_meta
 
 HEADER_RE = re.compile(
     r"""
@@ -25,10 +27,7 @@ def parse_header(
     if not m:
         raise ValueError(f"Invalid header: {text}")
 
-    return Header(raw_text=text, **m.groupdict())
+    tags = parse_tags(m["comment"])
+    meta = parse_meta(m["comment"])
 
-
-# === stub
-
-def parse_comment(text: str) -> str:
-    return text
+    return Header(raw_text=text, tags=tags, meta=meta, **m.groupdict())

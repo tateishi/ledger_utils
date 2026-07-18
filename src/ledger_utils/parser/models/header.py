@@ -14,7 +14,7 @@ class Header:
     description: str | None = None
     comment: str | None = None
     tags: list[Tag] | None = None
-    meta: list[Meta] | None = None
+    meta: Meta | None = None
 
     def __post_init__(self):
         # 1. date は必須

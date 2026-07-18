@@ -57,9 +57,9 @@ def test_header_parser_simple():
     assert header.description == "利払い"
     assert header.comment == None
 
-def test_header_parser_comment_meta():
+def test_header_parser_comment_tags():
     import datetime
-    line = "2025-03-15 * 利払い  ; month=2026-07"
+    line = "2025-03-15 * 利払い  ; :month:2026-07:"
     header = parse_header(line)
 
     assert header is not None
@@ -69,4 +69,24 @@ def test_header_parser_comment_meta():
     assert header.code is None
     assert header.flag == "*"
     assert header.description == "利払い"
-    assert header.comment == "month=2026-07"
+    assert header.comment == ":month:2026-07:"
+    assert header.tags[0].tag == "month"
+    assert header.tags[1].tag == "2026-07"
+    assert header.meta == None
+
+def test_header_parser_comment_meta():
+    import datetime
+    line = "2025-03-15 * 利払い  ; month: 2026-07"
+    header = parse_header(line)
+
+    assert header is not None
+    assert header.raw_text == line
+    assert header.date == datetime.date(2025,3,15)
+    assert header.date2 is None
+    assert header.code is None
+    assert header.flag == "*"
+    assert header.description == "利払い"
+    assert header.comment == "month: 2026-07"
+    assert header.tags == None
+    assert header.meta.name == "month"
+    assert header.meta.value == "2026-07"
