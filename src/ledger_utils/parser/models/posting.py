@@ -1,11 +1,38 @@
 from dataclasses import dataclass
 from decimal import Decimal
 
+from .tag import Tag
+from .meta import Meta
+
 
 @dataclass
 class Posting:
     raw_text: str
     account: str
+    commodity_pre: str | None
     amount: Decimal | None
-    commodity: str | None
+    commodity_post: str | None
     comment: str | None
+    tags: list[Tag] | None = None
+    meta: Meta | None = None
+
+    def __post_init__(self):
+        amount = self.amount.replace(",","")
+        self.amount = Decimal(amount)
+
+    @property
+    def commodity(self) -> str | None:
+        return self.commodity_pre or self.commodity_post
+
+    @property
+    def commodity_order(self) -> str:
+        if isinstance(self.commodity_pre, str) and isinstance(self.commodity_post, str):
+            if self.commodity_pre == self.commodity_post:
+                return "both"
+            else:
+                return "conflict"
+        if isinstance(self.commodity_pre, str):
+            return "pre"
+        if isinstance(self.commodity_post, str):
+            return "post"
+        return "none"
