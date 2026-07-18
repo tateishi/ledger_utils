@@ -4,6 +4,7 @@ from .posting import Posting
 from .tag import Tag
 from .transaction import Transaction
 from .global_comment import GlobalComment
+from .inner_comment import InnerComment
 from .blank import Blank
 
 __all__ = [
@@ -13,5 +14,6 @@ __all__ = [
     "Tag",
     "Meta",
     "GlobalComment",
+    "InnerComment",
     "Blank",
 ]
