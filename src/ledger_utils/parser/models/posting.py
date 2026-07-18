@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
 
-from .comment import Comment
-
 
 @dataclass
 class Posting:
@@ -10,4 +8,4 @@ class Posting:
     account: str
     amount: Decimal | None
     commodity: str | None
-    comment: Comment | None
+    comment: str | None

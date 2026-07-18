@@ -1,18 +1,20 @@
 from dataclasses import dataclass
 from datetime import datetime, date
 
-from .comment import Comment
-
+from .tag import Tag
+from .meta import Meta
 
 @dataclass
 class Header:
     raw_text: str
     date: date
-    date2: date | None
-    code: str | None
-    flag: str | None
-    description: str | None
-    comment: Comment | None
+    date2: date | None = None
+    code: str | None = None
+    flag: str | None = None
+    description: str | None = None
+    comment: str | None = None
+    tags: list[Tag] | None = None
+    meta: list[Meta] | None = None
 
     def __post_init__(self):
         # 1. date は必須
