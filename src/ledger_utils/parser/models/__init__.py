@@ -4,6 +4,7 @@ from .posting import Posting
 from .tag import Tag
 from .transaction import Transaction
 from .global_comment import GlobalComment
+from .blank import Blank
 
 __all__ = [
     "Header",
@@ -12,4 +13,5 @@ __all__ = [
     "Tag",
     "Meta",
     "GlobalComment",
+    "Blank",
 ]
