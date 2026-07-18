@@ -3,6 +3,7 @@ from .meta import Meta
 from .posting import Posting
 from .tag import Tag
 from .transaction import Transaction
+from .global_comment import GlobalComment
 
 __all__ = [
     "Header",
@@ -10,4 +11,5 @@ __all__ = [
     "Transaction",
     "Tag",
     "Meta",
+    "GlobalComment",
 ]
