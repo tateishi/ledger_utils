@@ -33,4 +33,11 @@ def parse_posting(
     tags = parse_tags(m["comment"])
     meta = parse_meta(m["comment"])
 
-    return Posting(raw_text=text, tags=tags, meta=meta, **m.groupdict())
+    return Posting(
+        raw_text=text,
+        line_no=line_no,
+        filename=filename,
+        tags=tags,
+        meta=meta,
+        **m.groupdict()
+    )

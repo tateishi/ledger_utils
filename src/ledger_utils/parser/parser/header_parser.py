@@ -30,4 +30,11 @@ def parse_header(
     tags = parse_tags(m["comment"])
     meta = parse_meta(m["comment"])
 
-    return Header(raw_text=text, tags=tags, meta=meta, **m.groupdict())
+    return Header(
+        raw_text=text,
+        line_no=line_no,
+        filename=filename,
+        tags=tags,
+        meta=meta,
+        **m.groupdict()
+    )

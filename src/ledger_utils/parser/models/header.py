@@ -7,6 +7,8 @@ from .meta import Meta
 @dataclass
 class Header:
     raw_text: str
+    line_no: int | None
+    filename: str | None
     date: date
     date2: date | None = None
     code: str | None = None

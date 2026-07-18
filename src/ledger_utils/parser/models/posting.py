@@ -8,6 +8,8 @@ from .meta import Meta
 @dataclass
 class Posting:
     raw_text: str
+    line_no: int | None
+    filename: str | None
     account: str
     commodity_pre: str | None
     amount: Decimal | None
