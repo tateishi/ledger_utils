@@ -19,8 +19,9 @@ class Posting:
     meta: Meta | None = None
 
     def __post_init__(self):
-        amount = self.amount.replace(",","")
-        self.amount = Decimal(amount)
+        if self.amount is not None:
+            amount = self.amount.replace(",","")
+            self.amount = Decimal(amount)
 
     @property
     def commodity(self) -> str | None:

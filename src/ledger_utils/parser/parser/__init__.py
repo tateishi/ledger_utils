@@ -3,6 +3,7 @@ from .posting_parser import POSTING_RE, parse_posting
 from .global_comment_parser import GLOBAL_COMMENT_RE, parse_global_comment
 from .inner_comment_parser import INNER_COMMENT_RE, parse_inner_comment
 from .blank_parser import parse_blank
+from .text_parser import parse_text
 
 from .tags_parser import parse_tags
 from .meta_parser import parse_meta
@@ -16,4 +17,5 @@ __all__ = [
     "parse_global_comment",
     "parse_inner_comment",
     "parse_blank",
+    "parse_text",
 ]
