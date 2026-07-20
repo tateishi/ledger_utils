@@ -1,6 +1,6 @@
 import re
 
-from ledger_utils.parser.models import Meta
+from ledger_utils.models import Meta
 
 META_RE = re.compile(
     r"""

@@ -1,4 +1,4 @@
-from ledger_utils.parser.models import Tag
+from ledger_utils.models import Tag
 
 def parse_tags(text: str | None) -> list[Tag] | None:
     if not isinstance(text, str):

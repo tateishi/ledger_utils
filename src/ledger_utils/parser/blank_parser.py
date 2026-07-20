@@ -1,6 +1,6 @@
 import re
 
-from ledger_utils.parser.models import Blank
+from ledger_utils.models import Blank
 
 def parse_blank(
     text: str, line_no: int | None=None, filename: str | None=None

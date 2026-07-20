@@ -1,8 +1,9 @@
 import re
 
-from ledger_utils.parser.models import Posting, Tag, Meta
-from .tags_parser import parse_tags
+from ledger_utils.models import Meta, Posting, Tag
+
 from .meta_parser import parse_meta
+from .tags_parser import parse_tags
 
 POSTING_RE = re.compile(
     r"""

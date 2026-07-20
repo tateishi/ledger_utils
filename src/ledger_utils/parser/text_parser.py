@@ -1,10 +1,10 @@
 from dataclasses import dataclass, field
 
-from ledger_utils.parser.models import (Blank, GlobalComment, Header,
-                                        InnerComment, Posting)
-from ledger_utils.parser.parser import (parse_blank, parse_global_comment,
-                                        parse_header, parse_inner_comment,
-                                        parse_posting)
+from ledger_utils.models import (Blank, GlobalComment, Header, InnerComment,
+                                 Posting)
+from ledger_utils.parser import (parse_blank, parse_global_comment,
+                                 parse_header, parse_inner_comment,
+                                 parse_posting)
 
 
 @dataclass
@@ -39,7 +39,7 @@ class TransactionPart:
     postings: list[PostingPart]
 
 @dataclass
-class Items:
+class LedgerItem:
     """
     上記のファイル要素のunion
     """
@@ -48,7 +48,7 @@ class Items:
 @dataclass
 class Context:
     state: str = "outside"
-    items: list[Items] = field(default_factory=list)
+    items: list[LedgerItem] = field(default_factory=list)
 
 
 def parse_text(text: str, filename: str | None=None):

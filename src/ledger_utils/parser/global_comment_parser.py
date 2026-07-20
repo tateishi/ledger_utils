@@ -1,6 +1,6 @@
 import re
 
-from ledger_utils.parser.models import GlobalComment
+from ledger_utils.models import GlobalComment
 
 GLOBAL_COMMENT_RE = re.compile(
     r"""

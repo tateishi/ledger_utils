@@ -1,9 +1,10 @@
 import re
 from datetime import datetime
 
-from ledger_utils.parser.models import Header, Tag, Meta
-from .tags_parser import parse_tags
+from ledger_utils.models import Header, Meta, Tag
+
 from .meta_parser import parse_meta
+from .tags_parser import parse_tags
 
 HEADER_RE = re.compile(
     r"""

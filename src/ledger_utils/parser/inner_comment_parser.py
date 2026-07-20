@@ -1,6 +1,6 @@
 import re
 
-from ledger_utils.parser.models import InnerComment
+from ledger_utils.models import InnerComment
 from .tags_parser import parse_tags
 from .meta_parser import parse_meta
 
