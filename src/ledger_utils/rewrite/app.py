@@ -55,3 +55,16 @@ def rewrite_comma(
 
     print(f"rewrite_comma")
     return do_rewrite(input_dir, output_dir, encoding, dry_run, comma_convert)
+
+@app.command("ast")
+def print_ast():
+    from ledger_utils.parser import parse_text
+    from pprint import pprint
+
+    filename = Path("~/wks/ledger/ledger_kakei/journal/kakei/cash/mother.ledger").expanduser()
+    text = filename.read_text()
+    ast = parse_text(text)
+
+    # print(filename)
+    # print(text)
+    pprint(ast.items)
