@@ -21,10 +21,10 @@ from ledger_utils.parser import parse_text
         """).strip(),
         {
             "state": "outside",
-            "header_date": [[date(2026, 7, 19)]],
-            "header_flag": [["*"]],
-            "header_desc": [["myshop"]],
-            "header_meta": [[dict(name="use-month", value="2026-07")]],
+            "header_date": [date(2026, 7, 19)],
+            "header_flag": ["*"],
+            "header_desc": ["myshop"],
+            "header_meta": [dict(name="use-month", value="2026-07")],
         }
     ),
     (
@@ -35,13 +35,13 @@ from ledger_utils.parser import parse_text
         """).strip(),
         {
             "state": "outside",
-            "header_date": [[date(2026, 7, 16)]],
-            "header_flag": [["*"]],
-            "header_desc": [["myshop"]],
-            "header_meta": [[dict(name="use-month", value="2026-07")]],
-            "posting_account": [[["支出:食費:外食", "資産:現金:paypay"]]],
-            "posting_amount": [[[Decimal('2000'), None]]],
-            "posting_commodity": [[["JPY", None]]],
+            "header_date": [date(2026, 7, 16)],
+            "header_flag": ["*"],
+            "header_desc": ["myshop"],
+            "header_meta": [dict(name="use-month", value="2026-07")],
+            "posting_account": [["支出:食費:外食", "資産:現金:paypay"]],
+            "posting_amount": [[Decimal('2000'), None]],
+            "posting_commodity": [["JPY", None]],
         }
     ),
     (
@@ -52,17 +52,17 @@ from ledger_utils.parser import parse_text
         """).strip(),
         {
             "state": "outside",
-            "header_date": [[date(2026, 7, 16)]],
-            "header_flag": [["*"]],
-            "header_desc": [["myshop"]],
-            "header_meta": [[dict(name="use-month", value="2026-07")]],
-            "posting_account": [[["支出:食費:外食", "負債:クレジット:楽天カード"]]],
-            "posting_amount": [[[Decimal('2000'), None]]],
-            "posting_commodity": [[["JPY", None]]],
-            "posting_meta": [[[
+            "header_date": [date(2026, 7, 16)],
+            "header_flag": ["*"],
+            "header_desc": ["myshop"],
+            "header_meta": [dict(name="use-month", value="2026-07")],
+            "posting_account": [["支出:食費:外食", "負債:クレジット:楽天カード"]],
+            "posting_amount": [[Decimal('2000'), None]],
+            "posting_commodity": [["JPY", None]],
+            "posting_meta": [[
                 dict(name="member", value="忠利"),
                 dict(name="pay-month", value="2026-08")
-            ]]],
+            ]],
         }
     ),
     (
@@ -76,17 +76,17 @@ from ledger_utils.parser import parse_text
         """).strip(),
         {
             "state": "outside",
-            "header_date": [[date(2026, 7, 16)]],
-            "header_flag": [["*"]],
-            "header_desc": [["myshop"]],
-            "header_comment_meta": [[[dict(name="use-month", value="2026-07")]]],
-            "posting_account": [[["支出:食費:外食", "負債:クレジット:楽天カード"]]],
-            "posting_amount": [[[Decimal('2000'), None]]],
-            "posting_commodity": [[["JPY", None]]],
-            "posting_comment_meta": [[[
+            "header_date": [date(2026, 7, 16)],
+            "header_flag": ["*"],
+            "header_desc": ["myshop"],
+            "header_comment_meta": [[dict(name="use-month", value="2026-07")]],
+            "posting_account": [["支出:食費:外食", "負債:クレジット:楽天カード"]],
+            "posting_amount": [[Decimal('2000'), None]],
+            "posting_commodity": [["JPY", None]],
+            "posting_comment_meta": [[
                 [dict(name="member", value="忠利")],
                 [dict(name="pay-month", value="2026-08")],
-            ]]],
+            ]],
         }
     ),
     (
@@ -102,23 +102,23 @@ from ledger_utils.parser import parse_text
         {
             "state": "outside",
             # "items": [],
-            "header_date": [[date(2026, 7, 16)], [], [date(2026, 7, 20)]],
-            "header_flag": [["*"], [], ["*"]],
-            "header_desc": [["myshop"], [], ["mysupermarket"]],
+            "header_date": [date(2026, 7, 16), None, date(2026, 7, 20)],
+            "header_flag": ["*", None, "*"],
+            "header_desc": ["myshop", None, "mysupermarket"],
             "posting_account": [
-                [["支出:食費:外食", "負債:クレジット:楽天カード"]],
-                [],
-                [["支出:食費:食材", "資産:現金:財布"]],
+                ["支出:食費:外食", "負債:クレジット:楽天カード"],
+                None,
+                ["支出:食費:食材", "資産:現金:財布"],
             ],
             "posting_amount": [
-                [[Decimal('2000'), None]],
-                [],
-                [[Decimal('1500'), None]],
+                [Decimal('2000'), None],
+                None,
+                [Decimal('1500'), None],
             ],
             "posting_commodity": [
-                [["JPY", None]],
-                [],
-                [[None, None]],
+                ["JPY", None],
+                None,
+                [None, None],
             ],
         }
     ),
@@ -131,62 +131,62 @@ def test_parse_posting(line, expected):
         assert p.items == expected["items"]
 
     if "header_date" in expected:
-        for i, part in enumerate(expected["header_date"]):
-            for j, d in enumerate(part):
-                assert p.items[i][j].header.header.date == d
+        for i, d in enumerate(expected["header_date"]):
+            if d is not None:
+                assert p.items[i].header.header.date == d
 
     if "header_flag" in expected:
-        for i, part in enumerate(expected["header_flag"]):
-            for j, d in enumerate(part):
-                assert p.items[i][j].header.header.flag == d
+        for i, d in enumerate(expected["header_flag"]):
+            if d is not None:
+                assert p.items[i].header.header.flag == d
 
     if "header_desc" in expected:
-        for i, part in enumerate(expected["header_desc"]):
-            for j, d in enumerate(part):
-                assert p.items[i][j].header.header.description == d
+        for i, d in enumerate(expected["header_desc"]):
+            if d is not None:
+                assert p.items[i].header.header.description == d
 
     if "header_meta" in expected:
-        for i, part in enumerate(expected["header_meta"]):
-            for j, d in enumerate(part):
-                assert p.items[i][j].header.header.meta.name == d["name"]
-                assert p.items[i][j].header.header.meta.value == d["value"]
+        for i, d in enumerate(expected["header_meta"]):
+            if d is not None:
+                assert p.items[i].header.header.meta.name == d["name"]
+                assert p.items[i].header.header.meta.value == d["value"]
 
     if "header_comment_meta" in expected:
         for i, part in enumerate(expected["header_comment_meta"]):
-            for j, pp in enumerate(part):
-                for k, d in enumerate(pp):
-                    assert p.items[i][j].header.comments[k].meta.name == d["name"]
-                    assert p.items[i][j].header.comments[k].meta.value == d["value"]
+            for j, d in enumerate(part):
+                if d is not None:
+                    assert p.items[i].header.comments[j].meta.name == d["name"]
+                    assert p.items[i].header.comments[j].meta.value == d["value"]
 
     if "posting_account" in expected:
         for i, part in enumerate(expected["posting_account"]):
-            for j, pp in enumerate(part):
-                for k, d in enumerate(pp):
-                    assert p.items[i][j].postings[k].posting.account == d
+            if part is not None:
+                for j, d in enumerate(part):
+                    assert p.items[i].postings[j].posting.account == d
 
     if "posting_amount" in expected:
         for i, part in enumerate(expected["posting_amount"]):
-            for j, pp in enumerate(part):
-                for k, d in enumerate(pp):
-                    assert p.items[i][j].postings[k].posting.amount == d
+            if part is not None:
+                for j, d in enumerate(part):
+                    assert p.items[i].postings[j].posting.amount == d
 
     if "posting_commodity" in expected:
         for i, part in enumerate(expected["posting_commodity"]):
-            for j, pp in enumerate(part):
-                for k, d in enumerate(pp):
-                    assert p.items[i][j].postings[k].posting.commodity == d
+            if part is not None:
+                for j, d in enumerate(part):
+                    assert p.items[i].postings[j].posting.commodity == d
 
     if "posting_meta" in expected:
         for i, part in enumerate(expected["posting_meta"]):
-            for j, pp in enumerate(part):
-                for k, d in enumerate(pp):
-                    assert p.items[i][j].postings[k].posting.meta.name == d["name"]
-                    assert p.items[i][j].postings[k].posting.meta.value == d["value"]
+            if part is not None:
+                for j, d in enumerate(part):
+                    assert p.items[i].postings[j].posting.meta.name == d["name"]
+                    assert p.items[i].postings[j].posting.meta.value == d["value"]
 
     if "posting_comment_meta" in expected:
         for i, part in enumerate(expected["posting_comment_meta"]):
-            for j, pp in enumerate(part):
-                for k, ppp in enumerate(pp):
-                    for l, d in enumerate(ppp):
-                        assert p.items[i][j].postings[k].comments[l].meta.name == d["name"]
-                        assert p.items[i][j].postings[k].comments[l].meta.value == d["value"]
+            if part is not None:
+                for j, ppp in enumerate(part):
+                    for k, d in enumerate(ppp):
+                        assert p.items[i].postings[j].comments[k].meta.name == d["name"]
+                        assert p.items[i].postings[j].comments[k].meta.value == d["value"]

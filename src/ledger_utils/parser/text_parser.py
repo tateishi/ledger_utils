@@ -87,7 +87,7 @@ def parse_text(text: str, filename: str | None=None):
                     case c if "0" <= c <= "9":
                         # output
                         if len(blanks) > 0:
-                            ctx.items.append(blanks)
+                            ctx.items.extend(blanks)
                         blanks = []
 
                         ctx.state = "header"
@@ -114,7 +114,7 @@ def parse_text(text: str, filename: str | None=None):
                     transactions.append(transaction)
                     header = None
                     postings = []
-                    ctx.items.append(transactions)
+                    ctx.items.extend(transactions)
                     transactions = []
 
                     ctx.state = "outside"
@@ -132,7 +132,7 @@ def parse_text(text: str, filename: str | None=None):
                         transactions.append(item)
                         header = None
                         postings = []
-                        ctx.items.append(transactions)
+                        ctx.items.extend(transactions)
                         transactions = []
 
                         ctx.state = "outside"
@@ -190,7 +190,7 @@ def parse_text(text: str, filename: str | None=None):
                     transactions.append(transaction)
                     header = None
                     postings = []
-                    ctx.items.append(transactions)
+                    ctx.items.extend(transactions)
                     transactions = []
 
                     ctx.state = "outside"
@@ -212,7 +212,7 @@ def parse_text(text: str, filename: str | None=None):
                         header = None
                         postings = []
 
-                        ctx.items.append(transactions)
+                        ctx.items.extend(transactions)
                         transactions = []
 
                         ctx.state = "outside"
@@ -253,7 +253,7 @@ def parse_text(text: str, filename: str | None=None):
                             transactions.append(transaction)
                             header = None
                             postings = []
-                            ctx.items.append(transactions)
+                            ctx.items.extend(transactions)
                             transactions = []
 
                             ctx.state = "outside"
@@ -296,7 +296,7 @@ def parse_text(text: str, filename: str | None=None):
         case "outside":
             # output
             if len(blanks) > 0:
-                ctx.items.append(blanks)
+                ctx.items.extend(blanks)
             blanks = []
 
         case "header":
@@ -305,7 +305,7 @@ def parse_text(text: str, filename: str | None=None):
             transactions.append(transaction)
             header = None
             postings = []
-            ctx.items.append(transactions)
+            ctx.items.extend(transactions)
             transactions = []
 
             ctx.state = "outside"
@@ -318,7 +318,7 @@ def parse_text(text: str, filename: str | None=None):
             transactions.append(transaction)
             header = None
             postings = []
-            ctx.items.append(transactions)
+            ctx.items.extend(transactions)
             transactions = []
 
             ctx.state = "outside"
