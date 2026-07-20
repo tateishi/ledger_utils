@@ -1,9 +1,9 @@
 from .blank_parser import parse_blank
-from .global_comment_parser import GLOBAL_COMMENT_RE, parse_global_comment
-from .header_parser import HEADER_RE, parse_header
-from .inner_comment_parser import INNER_COMMENT_RE, parse_inner_comment
+from .global_comment_parser import parse_global_comment
+from .header_parser import parse_header
+from .inner_comment_parser import parse_inner_comment
 from .meta_parser import parse_meta
-from .posting_parser import POSTING_RE, parse_posting
+from .posting_parser import parse_posting
 from .tags_parser import parse_tags
 from .text_parser import (BlankPart, HeaderPart, LedgerItem, PostingPart,
                           TransactionPart, parse_text)
