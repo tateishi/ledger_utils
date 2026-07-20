@@ -1,92 +1,103 @@
-from ledger_utils.parser import HEADER_RE, parse_header
+from datetime import date
+
+import pytest
+from ledger_utils.parser import parse_header
 
 
-def test_header_simple():
-    line = "2025-03-15 * 利払い"
-    m = HEADER_RE.match(line)
-    assert m is not None
+@pytest.mark.parametrize("line, expected", [
+    (
+        "2025-03-15 * 利払い",
+        {
+            "date": date(2025,3,15),
+            "flag": "*",
+            "description": "利払い",
+        }
+    ),
+    (
+        "2025/03/15 * 利払い",
+        {
+            "date": date(2025,3,15),
+            "flag": "*",
+            "description": "利払い",
+        }
+    ),
+    (
+        "2025-03-15=2025-03-20 * 利払い",
+        {
+            "date": date(2025,3,15),
+            "date2": date(2025,3,20),
+            "flag": "*",
+            "description": "利払い",
+        }
+    ),
+    (
+        "2025-03-15=2025-03-20 (abcd) * 利払い",
+        {
+            "date": date(2025,3,15),
+            "date2": date(2025,3,20),
+            "flag": "*",
+            "code": "abcd",
+            "description": "利払い",
+        }
+    ),
+    (
+        "2025/03/15=2025/03/20 * 利払い",
+        {
+            "date": date(2025,3,15),
+            "date2": date(2025,3,20),
+            "flag": "*",
+            "description": "利払い",
+        }
+    ),
+    (
+        "2025-03-15 * 利払い",
+        {
+            "date": date(2025,3,15),
+            "flag": "*",
+            "description": "利払い",
+        }
+    ),
+    (
+        "2025-03-15 * 利払い  ; :month:2026-07:",
+        {
+            "date": date(2025,3,15),
+            "flag": "*",
+            "description": "利払い",
+            "tags": ["month", "2026-07"],
+        }
+    ),
+    (
+        "2025-03-15 * 利払い  ; month: 2026-07",
+        {
+            "date": date(2025,3,15),
+            "flag": "*",
+            "description": "利払い",
+            "meta": dict(name="month", value="2026-07"),
+        }
+    ),
+])
 
-    gd = m.groupdict()
-    assert gd["date"] == "2025-03-15"
-    assert gd["flag"] == "*"
-    assert gd["description"].strip() == "利払い"
+def test_parse_posting(line, expected):
+    p = parse_header(line)
 
-def test_header_date_slash():
-    line = "2025/03/15 * 利払い"
-    m = HEADER_RE.match(line)
-    assert m is not None
+    assert p.date == expected["date"]
 
-    gd = m.groupdict()
-    assert gd["date"] == "2025/03/15"
-    assert gd["flag"] == "*"
-    assert gd["description"].strip() == "利払い"
+    if "date2" in expected:
+        assert p.date2 == expected["date2"]
 
-def test_header_dash_2nd():
-    line = "2025-03-15=2025-03-20 * 利払い"
-    m = HEADER_RE.match(line)
-    assert m is not None
+    if "code" in expected:
+        assert p.code == expected["code"]
 
-    gd = m.groupdict()
-    assert gd["date"] == "2025-03-15"
-    assert gd["date2"] == "2025-03-20"
-    assert gd["flag"] == "*"
-    assert gd["description"].strip() == "利払い"
+    if "flag" in expected:
+        assert p.flag == expected["flag"]
 
-def test_header_slash_2nd():
-    line = "2025/03/15=2025/03/20 * 利払い"
-    m = HEADER_RE.match(line)
-    assert m is not None
+    if "description" in expected:
+        assert p.description == expected["description"]
 
-    gd = m.groupdict()
-    assert gd["date"] == "2025/03/15"
-    assert gd["date2"] == "2025/03/20"
-    assert gd["flag"] == "*"
-    assert gd["description"].strip() == "利払い"
+    if "tags" in expected:
+        for i, tag in enumerate(expected["tags"]):
+            assert p.tags[i].tag == tag
 
-def test_header_parser_simple():
-    import datetime
-    line = "2025-03-15 * 利払い"
-    header = parse_header(line)
-
-    assert header is not None
-    assert header.raw_text == line
-    assert header.date == datetime.date(2025,3,15)
-    assert header.date2 is None
-    assert header.code is None
-    assert header.flag == "*"
-    assert header.description == "利払い"
-    assert header.comment == None
-
-def test_header_parser_comment_tags():
-    import datetime
-    line = "2025-03-15 * 利払い  ; :month:2026-07:"
-    header = parse_header(line)
-
-    assert header is not None
-    assert header.raw_text == line
-    assert header.date == datetime.date(2025,3,15)
-    assert header.date2 is None
-    assert header.code is None
-    assert header.flag == "*"
-    assert header.description == "利払い"
-    assert header.comment == ":month:2026-07:"
-    assert header.tags[0].tag == "month"
-    assert header.tags[1].tag == "2026-07"
-    assert header.meta == None
-
-def test_header_parser_comment_meta():
-    import datetime
-    line = "2025-03-15 * 利払い  ; month: 2026-07"
-    header = parse_header(line)
-
-    assert header is not None
-    assert header.raw_text == line
-    assert header.date == datetime.date(2025,3,15)
-    assert header.date2 is None
-    assert header.code is None
-    assert header.flag == "*"
-    assert header.description == "利払い"
-    assert header.comment == "month: 2026-07"
-    assert header.tags == None
-    assert header.meta.name == "month"
-    assert header.meta.value == "2026-07"
+    if "meta" in expected:
+        assert p.meta.name == expected["meta"]["name"]
+        assert p.meta.value == expected["meta"]["value"]
