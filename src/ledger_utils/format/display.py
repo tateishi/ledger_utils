@@ -48,7 +48,7 @@ def display_header(item: Header) -> str:
     if item.description is not None:
         result += f" {item.description}"
     if item.meta is not None:
-        result += f"  ;  {item.meta['name']}: {item.meta['value']}"
+        result += f"  ; {item.meta.name}: {item.meta.value}"
     elif item.tags is not None:
         result += f"  ; :{':'.join([e.tag for e in item.tags])}:"
     elif item.comment is not None:
@@ -57,7 +57,14 @@ def display_header(item: Header) -> str:
 
 
 def display_header_comment(item: InnerComment) -> str:
-    return item.raw_text
+    if item.meta is not None:
+        result = f"    ; {item.meta.name}: {item.meta.value}"
+    elif item.tags is not None:
+        result = f"    ; :{':'.join([e.tag for e in item.tags])}:"
+    elif item.comment is not None:
+        result = f"    ; {item.comment}"
+
+    return result
 
 
 def display_posting(item: Posting) -> str:
@@ -65,4 +72,11 @@ def display_posting(item: Posting) -> str:
 
 
 def display_posting_comment(item: InnerComment) -> str:
-    return item.raw_text
+    if item.meta is not None:
+        result = f"    ; {item.meta.name}: {item.meta.value}"
+    elif item.tags is not None:
+        result = f"    ; :{':'.join([e.tag for e in item.tags])}:"
+    elif item.comment is not None:
+        result = f"    ; {item.comment}"
+
+    return result
