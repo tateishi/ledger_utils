@@ -58,6 +58,15 @@ from ledger_utils.parser import parse_header
         }
     ),
     (
+        "2025-03-15 * 利払い  ; 利息",
+        {
+            "date": date(2025,3,15),
+            "flag": "*",
+            "description": "利払い",
+            "comment": "利息",
+        }
+    ),
+    (
         "2025-03-15 * 利払い  ; :month:2026-07:",
         {
             "date": date(2025,3,15),
@@ -93,6 +102,9 @@ def test_parse_posting(line, expected):
 
     if "description" in expected:
         assert p.description == expected["description"]
+
+    if "comment" in expected:
+        assert p.comment == expected["comment"]
 
     if "tags" in expected:
         for i, tag in enumerate(expected["tags"]):
