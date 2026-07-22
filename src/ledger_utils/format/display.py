@@ -1,5 +1,5 @@
-from ledger_utils.models import Blank, GlobalComment
-from ledger_utils.parser import TransactionPart, LedgerItem
+from ledger_utils.models import Blank, GlobalComment, Header, InnerComment, Posting
+from ledger_utils.parser import LedgerItem, TransactionPart
 
 
 def display_ledger(items: list[LedgerItem]) -> str:
@@ -18,19 +18,51 @@ def display_ledger(items: list[LedgerItem]) -> str:
     return text
 
 
-def display_blank(item: Blank) -> str:
-    return ""
+def display_blank(token: Blank) -> str:
+    return token.raw_text
 
 
-def display_comment(item: GlobalComment) -> str:
+def display_comment(token: GlobalComment) -> str:
+    return token.raw_text
+
+
+def display_transaction(token: TransactionPart) -> list[str]:
+    result = list()
+
+    result.append(display_header(token.header.header))
+    result += [display_header_comment(item) for item in token.header.comments]
+    for post in token.postings:
+        result.append(display_posting(post.posting))
+        result += [display_posting_comment(item) for item in post.comments]
+    return result
+
+
+def display_header(item: Header) -> str:
+    result = item.date.strftime("%Y-%m-%d")
+    if item.date2 is not None:
+        result += f" ={item.date2.strftime('%Y-%m-%d')}"
+    if item.code is not None:
+        result += f" ({item.code})"
+    if item.flag is not None:
+        result += f" {item.flag}"
+    if item.description is not None:
+        result += f" {item.description}"
+    if item.meta is not None:
+        result += f"  ;  {item.meta['name']}: {item.meta['value']}"
+    elif item.tags is not None:
+        result += f"  ; :{':'.join([e.tag for e in item.tags])}:"
+    elif item.comment is not None:
+        result += f"  ; {item.comment}"
+    return result
+
+
+def display_header_comment(item: InnerComment) -> str:
     return item.raw_text
 
 
-def display_transaction(item: TransactionPart) -> list[str]:
-    result = list()
-    result.append(item.header.header.raw_text)
-    result += [el.raw_text for el in item.header.comments]
-    for post in item.postings:
-        result.append(post.posting.raw_text)
-        result += [el.raw_text for el in post.comments]
-    return result
+def display_posting(item: Posting) -> str:
+    return item.raw_text
+
+
+def display_posting_comment(item: InnerComment) -> str:
+    return item.raw_text
