@@ -53,6 +53,7 @@ def display_header(item: Header) -> str:
         result += f"  ; :{':'.join([e.tag for e in item.tags])}:"
     elif item.comment is not None:
         result += f"  ; {item.comment}"
+
     return result
 
 
