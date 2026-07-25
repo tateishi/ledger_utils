@@ -5,9 +5,9 @@ from .meta import Meta
 
 @dataclass
 class InnerComment:
-    raw_text: str
-    line_no: int | None
-    filename: str | None
     comment: str
     tags: list[Tag] | None = None
     meta: Meta | None = None
+    raw_text: str
+    line_no: int | None
+    filename: str | None

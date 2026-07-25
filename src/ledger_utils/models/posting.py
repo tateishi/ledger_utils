@@ -7,9 +7,6 @@ from .meta import Meta
 
 @dataclass
 class Posting:
-    raw_text: str
-    line_no: int | None
-    filename: str | None
     account: str
     commodity_pre: str | None
     amount: Decimal | None
@@ -17,6 +14,9 @@ class Posting:
     comment: str | None
     tags: list[Tag] | None = None
     meta: Meta | None = None
+    raw_text: str
+    line_no: int | None
+    filename: str | None
 
     def __post_init__(self):
         if self.amount is not None:
