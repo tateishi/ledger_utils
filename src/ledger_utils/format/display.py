@@ -69,7 +69,28 @@ def display_header_comment(item: InnerComment) -> str:
 
 
 def display_posting(item: Posting) -> str:
-    return item.raw_text
+    result = f"    {item.account}"
+    after_account = True
+    if item.commodity_pre is not None:
+        result += "  " if after_account else " "
+        after_account = False
+        result += f"{item.commodity_pre}"
+    if item.amount is not None:
+        result += "  " if after_account else " "
+        after_account = False
+        result += f"{item.amount}"
+    if item.commodity_post is not None:
+        result += "  " if after_account else " "
+        after_account = False
+        result += f"{item.commodity_post}"
+    if item.meta is not None:
+        result += f"  ; {item.meta.name}: {item.meta.value}"
+    elif item.tags is not None:
+        result += f"  ; :{':'.join([e.tag for e in item.tags])}:"
+    elif item.comment is not None:
+        result += f"  ; {item.comment}"
+
+    return result
 
 
 def display_posting_comment(item: InnerComment) -> str:
