@@ -14,9 +14,9 @@ class Posting:
     comment: str | None
     tags: list[Tag] | None = None
     meta: Meta | None = None
-    raw_text: str
-    line_no: int | None
-    filename: str | None
+    raw_text: str = ""
+    line_no: int | None = None
+    filename: str | None = None
 
     def __post_init__(self):
         if self.amount is not None:
