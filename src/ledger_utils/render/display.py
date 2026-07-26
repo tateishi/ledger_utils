@@ -6,20 +6,20 @@ from ledger_utils.parser import LedgerItem, TransactionPart
 from ledger_utils.text import width
 
 
-def display_ledger(items: list[LedgerItem]) -> str:
-    lines = list()
-    for item in items:
-        match item:
-            case c if isinstance(c, Blank):
-                lines.append(display_blank(c))
-            case c if isinstance(c, OuterComment):
-                lines.append(display_comment(c))
-            case c if isinstance(c, TransactionPart):
-                lines.extend(display_transaction(c))
-            case _:
-                raise ValueError(f"Invalid token: f{c}")
-    text = "\n".join(lines)
-    return text
+# def display_ledger(items: list[LedgerItem]) -> str:
+#     lines = list()
+#     for item in items:
+#         match item:
+#             case c if isinstance(c, Blank):
+#                 lines.append(display_blank(c))
+#             case c if isinstance(c, OuterComment):
+#                 lines.append(display_comment(c))
+#             case c if isinstance(c, TransactionPart):
+#                 lines.extend(display_transaction(c))
+#             case _:
+#                 raise ValueError(f"Invalid token: f{c}")
+#     text = "\n".join(lines)
+#     return text
 
 
 def display_blank(token: Blank) -> str:
