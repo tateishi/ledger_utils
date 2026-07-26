@@ -1,8 +1,8 @@
 import re
 
-from ledger_utils.models import GlobalComment
+from ledger_utils.models import OuterComment
 
-GLOBAL_COMMENT_RE = re.compile(
+OUTER_COMMENT_RE = re.compile(
     r"""
     ^
     (?:(?P<leader>[;#%|*]))
@@ -13,14 +13,14 @@ GLOBAL_COMMENT_RE = re.compile(
 )
 
 
-def parse_global_comment(
+def parse_outer_comment(
     text: str, line_no: int | None=None, filename: str | None=None
-) -> GlobalComment:
-    m = GLOBAL_COMMENT_RE.match(text)
+) -> OuterComment:
+    m = OUTER_COMMENT_RE.match(text)
     if not m:
         raise ValueError(f"Invalid comment: {text}")
 
-    return GlobalComment(
+    return OuterComment(
         raw_text=text,
         line_no=line_no,
         filename=filename,

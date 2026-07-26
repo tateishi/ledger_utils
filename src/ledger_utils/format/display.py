@@ -1,6 +1,6 @@
 import decimal
 
-from ledger_utils.models import (Blank, GlobalComment, Header, InnerComment,
+from ledger_utils.models import (Blank, OuterComment, Header, InnerComment,
                                  Posting)
 from ledger_utils.parser import LedgerItem, TransactionPart
 from ledger_utils.text import width
@@ -12,7 +12,7 @@ def display_ledger(items: list[LedgerItem]) -> str:
         match item:
             case c if isinstance(c, Blank):
                 lines.append(display_blank(c))
-            case c if isinstance(c, GlobalComment):
+            case c if isinstance(c, OuterComment):
                 lines.append(display_comment(c))
             case c if isinstance(c, TransactionPart):
                 lines.extend(display_transaction(c))
@@ -26,7 +26,7 @@ def display_blank(token: Blank) -> str:
     return token.raw_text
 
 
-def display_comment(token: GlobalComment) -> str:
+def display_comment(token: OuterComment) -> str:
     return token.raw_text
 
 

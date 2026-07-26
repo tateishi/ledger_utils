@@ -1,5 +1,5 @@
 import pytest
-from ledger_utils.parser import parse_global_comment
+from ledger_utils.parser import parse_outer_comment
 
 @pytest.mark.parametrize("line, expected", [
     (
@@ -38,8 +38,8 @@ from ledger_utils.parser import parse_global_comment
         }
     ),
 ])
-def test_parse_global_comment(line, expected):
-    p = parse_global_comment(line)
+def test_parse_outer_comment(line, expected):
+    p = parse_outer_comment(line)
 
     assert p.leader == expected["leader"]
     assert p.comment == expected["comment"]

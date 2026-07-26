@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 
-from ledger_utils.models import (Blank, GlobalComment, Header, InnerComment,
+from ledger_utils.models import (Blank, OuterComment, Header, InnerComment,
                                  Posting)
-from ledger_utils.parser import (parse_blank, parse_global_comment,
+from ledger_utils.parser import (parse_blank, parse_outer_comment,
                                  parse_header, parse_inner_comment,
                                  parse_posting)
 
@@ -12,7 +12,7 @@ class BlankPart:
     """
     トランザクションの間のコメント・空白行（ファイル先頭・末尾含む）
     """
-    item: GlobalComment | Blank
+    item: OuterComment | Blank
 
 @dataclass
 class HeaderPart:
@@ -78,8 +78,8 @@ def parse_text(text: str, filename: str | None=None):
                     case c if c in ";#%|*":
                         ctx.state = "outside"
 
-                        # push global comment
-                        item = parse_global_comment(line, i, filename)
+                        # push outer comment
+                        item = parse_outer_comment(line, i, filename)
                         blanks.append(item)
 
                         continue
@@ -137,8 +137,8 @@ def parse_text(text: str, filename: str | None=None):
 
                         ctx.state = "outside"
 
-                        # push global comment
-                        item = parse_global_comment(line, i, filename)
+                        # push outer comment
+                        item = parse_outer_comment(line, i, filename)
                         blanks.append(item)
 
                         continue
@@ -217,8 +217,8 @@ def parse_text(text: str, filename: str | None=None):
 
                         ctx.state = "outside"
 
-                        # push global comment
-                        item = parse_global_comment(line, i, filename)
+                        # push outer comment
+                        item = parse_outer_comment(line, i, filename)
                         blanks.append(item)
 
                         continue

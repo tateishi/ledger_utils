@@ -4,13 +4,13 @@ from ledger_utils.format import display
 
 @pytest.mark.parametrize("token, expected", [
     (
-        models.GlobalComment(raw_text=";;;;"),
+        models.OuterComment(raw_text=";;;;"),
         {
             "text": ";;;;",
         }
     ),
     (
-        models.GlobalComment(raw_text="* test"),
+        models.OuterComment(raw_text="* test"),
         {
             "text": "* test",
         }

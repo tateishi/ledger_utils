@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class GlobalComment:
+class OuterComment:
     leader: str = ""
     comment: str = ""
     raw_text: str = ""
