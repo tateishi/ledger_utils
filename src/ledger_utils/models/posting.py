@@ -8,10 +8,10 @@ from .meta import Meta
 @dataclass
 class Posting:
     account: str
-    commodity_pre: str | None
-    amount: Decimal | None
-    commodity_post: str | None
-    comment: str | None
+    commodity_pre: str | None = None
+    amount: Decimal | None = None
+    commodity_post: str | None = None
+    comment: str | None = None
     tags: list[Tag] | None = None
     meta: Meta | None = None
     raw_text: str = ""
