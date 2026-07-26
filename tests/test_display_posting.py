@@ -88,7 +88,7 @@ from ledger_utils.format import display
         ),
         (
             models.Posting(
-                account == "収入:雑収入:キャッシュバック",
+                account="収入:雑収入:キャッシュバック",
                 tags=[models.Tag(tag="a"), models.Tag(tag="b")],
             ),
             {
