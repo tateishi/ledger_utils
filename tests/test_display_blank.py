@@ -1,6 +1,6 @@
 import pytest
 from ledger_utils import models
-from ledger_utils.format import display
+from ledger_utils.render import display
 
 @pytest.mark.parametrize("token, expected", [
     (

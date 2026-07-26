@@ -4,7 +4,7 @@ from pathlib import Path
 import typer
 from ledger_utils.parser import parse_text
 
-from .display import display_ledger
+from ledger_utils.render.display import display_ledger
 
 app = typer.Typer(help="Format related command.")
 
