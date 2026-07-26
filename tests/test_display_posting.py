@@ -45,6 +45,26 @@ from ledger_utils.format import display
         (
             models.Posting(
                 account="収入:投資収入:受取利息",
+                amount="-55.00",
+                commodity_post="AUD",
+            ),
+            {
+                "text": "    収入:投資収入:受取利息                       -55.00 AUD",
+            },
+        ),
+        (
+            models.Posting(
+                account="収入:投資収入:受取利息",
+                amount="-55",
+                commodity_post="AUD",
+            ),
+            {
+                "text": "    収入:投資収入:受取利息                       -55.00 AUD",
+            },
+        ),
+        (
+            models.Posting(
+                account="収入:投資収入:受取利息",
                 commodity_pre="AUD",
                 amount="-55.26",
             ),

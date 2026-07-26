@@ -1,4 +1,7 @@
-from ledger_utils.models import Blank, GlobalComment, Header, InnerComment, Posting
+import decimal
+
+from ledger_utils.models import (Blank, GlobalComment, Header, InnerComment,
+                                 Posting)
 from ledger_utils.parser import LedgerItem, TransactionPart
 from ledger_utils.text import width
 
@@ -69,10 +72,31 @@ def display_header_comment(item: InnerComment) -> str:
     return result
 
 
+def render_with_subunits(
+    amount: decimal.Decimal,
+    decimal_places: int = 0,
+    rounding: str = decimal.ROUND_HALF_UP,
+) -> str:
+    if not (1 <= decimal_places <= 10):
+        return f"{amount}"
+    format = "0." + "0" * decimal_places
+    v = amount.quantize(decimal.Decimal(format), rounding=rounding)
+    return f"{v}"
+
+
 def display_posting(item: Posting) -> str:
+    indent_width = 4
     target = 52
     comment_target = 54
-    indent_width = 4
+    currencies_with_subunits = {
+        "USD": 2,
+        "EUR": 2,
+        "AUD": 2,
+        "NZD": 2,
+        "BRL": 2,
+        "ZAR": 2,
+    }
+
     result = " " * indent_width + f"{item.account}"
 
     if item.amount is not None:
@@ -97,7 +121,12 @@ def display_posting(item: Posting) -> str:
         if item.commodity_pre is not None:
             result += f"{item.commodity_pre}"
         if item.amount is not None:
-            result += f"{item.amount}"
+            if item.commodity in currencies_with_subunits:
+                decimal_places = currencies_with_subunits[item.commodity]
+                amount_str = render_with_subunits(item.amount, decimal_places)
+            else:
+                amount_str = f"{item.amount}"
+            result += amount_str
 
     if item.commodity_post is not None:
         result += f" {item.commodity_post}"
