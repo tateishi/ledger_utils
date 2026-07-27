@@ -26,7 +26,7 @@ from ledger_utils import models, render
     ],
 )
 def test_display(token, expected):
-    text = render.render_header_comment(token)
+    text = render.render_posting_comment(token)
 
     if "text" in expected:
         assert text == expected["text"]

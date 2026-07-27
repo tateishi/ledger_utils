@@ -4,3 +4,4 @@ from .render_transaction import render_transaction
 from .render_header import render_header
 from .render_header_comment import render_header_comment
 from .render_posting import render_posting
+from .render_posting_comment import render_posting_comment

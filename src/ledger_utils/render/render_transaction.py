@@ -1,7 +1,7 @@
 # from ledger_utils.parser import TransactionPart
 from ledger_utils import parser, render
 
-from .display import display_posting_comment
+#from .display import display_posting_comment
 
 
 def render_transaction(token: parser.TransactionPart) -> list[str]:
@@ -11,5 +11,5 @@ def render_transaction(token: parser.TransactionPart) -> list[str]:
     result += [render.render_header_comment(item) for item in token.header.comments]
     for post in token.postings:
         result.append(render.render_posting(post.posting))
-        result += [display_posting_comment(item) for item in post.comments]
+        result += [render.render_posting_comment(item) for item in post.comments]
     return result
