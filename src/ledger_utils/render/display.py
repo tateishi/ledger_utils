@@ -1,7 +1,6 @@
 import decimal
 
-from ledger_utils.models import (Blank, OuterComment, Header, InnerComment,
-                                 Posting)
+from ledger_utils.models import Blank, OuterComment, Header, InnerComment, Posting
 from ledger_utils.parser import LedgerItem, TransactionPart
 from ledger_utils.text import width
 
