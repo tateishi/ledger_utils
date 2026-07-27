@@ -1,19 +1,8 @@
 import decimal
 
-from ledger_utils.models import Blank, OuterComment, Header, InnerComment, Posting
+from ledger_utils.models import Blank, Header, InnerComment, OuterComment, Posting
 from ledger_utils.parser import LedgerItem, TransactionPart
 from ledger_utils.text import width
-
-
-def display_header_comment(item: InnerComment) -> str:
-    if item.meta is not None:
-        result = f"    ; {item.meta.name}: {item.meta.value}"
-    elif item.tags is not None:
-        result = f"    ; :{':'.join([e.tag for e in item.tags])}:"
-    elif item.comment is not None:
-        result = f"    ; {item.comment}"
-
-    return result
 
 
 def render_with_subunits(
