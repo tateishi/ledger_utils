@@ -1,6 +1,5 @@
 import pytest
-from ledger_utils import models
-from ledger_utils.render import display
+from ledger_utils import models, render, rewrite
 
 
 @pytest.mark.parametrize(
@@ -127,7 +126,7 @@ from ledger_utils.render import display
     ],
 )
 def test_display(token, expected):
-    text = display.display_posting(token)
+    text = render.render_posting(token)
 
     if "text" in expected:
         assert text == expected["text"]
