@@ -17,7 +17,7 @@ from ledger_utils import models, render
     ),
 ])
 def test_display(token, expected):
-    text = render.display.display_blank(token)
+    text = render.render_blank(token)
 
     if "text" in expected:
         assert text == expected["text"]
