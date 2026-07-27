@@ -1,7 +1,8 @@
-import pytest
-from ledger_utils import models
-from ledger_utils.render import display
 from datetime import date
+
+import pytest
+from ledger_utils import models, render
+
 
 @pytest.mark.parametrize("token, expected", [
     (
@@ -27,7 +28,7 @@ from datetime import date
     ),
 ])
 def test_display(token, expected):
-    text = display.display_header(token)
+    text = render.render_header(token)
 
     if "text" in expected:
         assert text == expected["text"]
