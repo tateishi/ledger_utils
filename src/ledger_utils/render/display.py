@@ -5,17 +5,6 @@ from ledger_utils.parser import LedgerItem, TransactionPart
 from ledger_utils.text import width
 
 
-def display_transaction(token: TransactionPart) -> list[str]:
-    result = list()
-
-    result.append(display_header(token.header.header))
-    result += [display_header_comment(item) for item in token.header.comments]
-    for post in token.postings:
-        result.append(display_posting(post.posting))
-        result += [display_posting_comment(item) for item in post.comments]
-    return result
-
-
 def display_header(item: Header) -> str:
     result = item.date.strftime("%Y-%m-%d")
     if item.date2 is not None:

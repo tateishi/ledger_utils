@@ -1,6 +1,6 @@
 from ledger_utils.parser import TransactionPart
 
-from .display import (display_header, display_header_comment,
+from .display import (display_header, display_header_comment, display_posting,
                       display_posting_comment)
 
 
