@@ -1,7 +1,7 @@
 from decimal import Decimal
 
 import pytest
-from ledger_utils.text import width
+from ledger_utils import text
 
 
 @pytest.mark.parametrize(
@@ -34,7 +34,7 @@ from ledger_utils.text import width
     ],
 )
 def test_decimal_width(amount, expected):
-    w = width.integer_part_width(amount)
+    w = text.width.integer_part_width(amount)
 
     if "width" in expected:
         assert w == expected["width"]

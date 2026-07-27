@@ -6,67 +6,71 @@ import pytest
 from ledger_utils.parser import parse_text
 
 
-@pytest.mark.parametrize("line, expected", [
-    (
-        textwrap.dedent("""
+@pytest.mark.parametrize(
+    "line, expected",
+    [
+        (
+            textwrap.dedent("""
         """).strip(),
-        {
-            "state": "outside",
-            "items": [],
-        }
-    ),
-    (
-        textwrap.dedent("""
+            {
+                "state": "outside",
+                "items": [],
+            },
+        ),
+        (
+            textwrap.dedent("""
         2026-07-19 * myshop  ;  use-month: 2026-07
         """).strip(),
-        {
-            "state": "outside",
-            "header_date": [date(2026, 7, 19)],
-            "header_flag": ["*"],
-            "header_desc": ["myshop"],
-            "header_meta": [dict(name="use-month", value="2026-07")],
-        }
-    ),
-    (
-        textwrap.dedent("""
+            {
+                "state": "outside",
+                "header_date": [date(2026, 7, 19)],
+                "header_flag": ["*"],
+                "header_desc": ["myshop"],
+                "header_meta": [dict(name="use-month", value="2026-07")],
+            },
+        ),
+        (
+            textwrap.dedent("""
         2026-07-16 * myshop        ;  use-month: 2026-07
             支出:食費:外食     2000 JPY
             資産:現金:paypay
         """).strip(),
-        {
-            "state": "outside",
-            "header_date": [date(2026, 7, 16)],
-            "header_flag": ["*"],
-            "header_desc": ["myshop"],
-            "header_meta": [dict(name="use-month", value="2026-07")],
-            "posting_account": [["支出:食費:外食", "資産:現金:paypay"]],
-            "posting_amount": [[Decimal('2000'), None]],
-            "posting_commodity": [["JPY", None]],
-        }
-    ),
-    (
-        textwrap.dedent("""
+            {
+                "state": "outside",
+                "header_date": [date(2026, 7, 16)],
+                "header_flag": ["*"],
+                "header_desc": ["myshop"],
+                "header_meta": [dict(name="use-month", value="2026-07")],
+                "posting_account": [["支出:食費:外食", "資産:現金:paypay"]],
+                "posting_amount": [[Decimal("2000"), None]],
+                "posting_commodity": [["JPY", None]],
+            },
+        ),
+        (
+            textwrap.dedent("""
         2026-07-16 * myshop                        ;  use-month: 2026-07
             支出:食費:外食              2000 JPY   ;  member: 忠利
             負債:クレジット:楽天カード             ;  pay-month: 2026-08
         """).strip(),
-        {
-            "state": "outside",
-            "header_date": [date(2026, 7, 16)],
-            "header_flag": ["*"],
-            "header_desc": ["myshop"],
-            "header_meta": [dict(name="use-month", value="2026-07")],
-            "posting_account": [["支出:食費:外食", "負債:クレジット:楽天カード"]],
-            "posting_amount": [[Decimal('2000'), None]],
-            "posting_commodity": [["JPY", None]],
-            "posting_meta": [[
-                dict(name="member", value="忠利"),
-                dict(name="pay-month", value="2026-08")
-            ]],
-        }
-    ),
-    (
-        textwrap.dedent("""
+            {
+                "state": "outside",
+                "header_date": [date(2026, 7, 16)],
+                "header_flag": ["*"],
+                "header_desc": ["myshop"],
+                "header_meta": [dict(name="use-month", value="2026-07")],
+                "posting_account": [["支出:食費:外食", "負債:クレジット:楽天カード"]],
+                "posting_amount": [[Decimal("2000"), None]],
+                "posting_commodity": [["JPY", None]],
+                "posting_meta": [
+                    [
+                        dict(name="member", value="忠利"),
+                        dict(name="pay-month", value="2026-08"),
+                    ]
+                ],
+            },
+        ),
+        (
+            textwrap.dedent("""
         2026-07-16 * myshop
             ;  use-month: 2026-07
             支出:食費:外食              2000 JPY
@@ -74,23 +78,25 @@ from ledger_utils.parser import parse_text
             負債:クレジット:楽天カード
             ;  pay-month: 2026-08
         """).strip(),
-        {
-            "state": "outside",
-            "header_date": [date(2026, 7, 16)],
-            "header_flag": ["*"],
-            "header_desc": ["myshop"],
-            "header_comment_meta": [[dict(name="use-month", value="2026-07")]],
-            "posting_account": [["支出:食費:外食", "負債:クレジット:楽天カード"]],
-            "posting_amount": [[Decimal('2000'), None]],
-            "posting_commodity": [["JPY", None]],
-            "posting_comment_meta": [[
-                [dict(name="member", value="忠利")],
-                [dict(name="pay-month", value="2026-08")],
-            ]],
-        }
-    ),
-    (
-        textwrap.dedent("""
+            {
+                "state": "outside",
+                "header_date": [date(2026, 7, 16)],
+                "header_flag": ["*"],
+                "header_desc": ["myshop"],
+                "header_comment_meta": [[dict(name="use-month", value="2026-07")]],
+                "posting_account": [["支出:食費:外食", "負債:クレジット:楽天カード"]],
+                "posting_amount": [[Decimal("2000"), None]],
+                "posting_commodity": [["JPY", None]],
+                "posting_comment_meta": [
+                    [
+                        [dict(name="member", value="忠利")],
+                        [dict(name="pay-month", value="2026-08")],
+                    ]
+                ],
+            },
+        ),
+        (
+            textwrap.dedent("""
         2026-07-16 * myshop
             支出:食費:外食              2000 JPY
             負債:クレジット:楽天カード
@@ -99,30 +105,31 @@ from ledger_utils.parser import parse_text
             支出:食費:食材              1500
             資産:現金:財布
         """).strip(),
-        {
-            "state": "outside",
-            # "items": [],
-            "header_date": [date(2026, 7, 16), None, date(2026, 7, 20)],
-            "header_flag": ["*", None, "*"],
-            "header_desc": ["myshop", None, "mysupermarket"],
-            "posting_account": [
-                ["支出:食費:外食", "負債:クレジット:楽天カード"],
-                None,
-                ["支出:食費:食材", "資産:現金:財布"],
-            ],
-            "posting_amount": [
-                [Decimal('2000'), None],
-                None,
-                [Decimal('1500'), None],
-            ],
-            "posting_commodity": [
-                ["JPY", None],
-                None,
-                [None, None],
-            ],
-        }
-    ),
-])
+            {
+                "state": "outside",
+                # "items": [],
+                "header_date": [date(2026, 7, 16), None, date(2026, 7, 20)],
+                "header_flag": ["*", None, "*"],
+                "header_desc": ["myshop", None, "mysupermarket"],
+                "posting_account": [
+                    ["支出:食費:外食", "負債:クレジット:楽天カード"],
+                    None,
+                    ["支出:食費:食材", "資産:現金:財布"],
+                ],
+                "posting_amount": [
+                    [Decimal("2000"), None],
+                    None,
+                    [Decimal("1500"), None],
+                ],
+                "posting_commodity": [
+                    ["JPY", None],
+                    None,
+                    [None, None],
+                ],
+            },
+        ),
+    ],
+)
 def test_parse_posting(line, expected):
     p = parse_text(line)
 
@@ -189,4 +196,6 @@ def test_parse_posting(line, expected):
                 for j, ppp in enumerate(part):
                     for k, d in enumerate(ppp):
                         assert p.items[i].postings[j].comments[k].meta.name == d["name"]
-                        assert p.items[i].postings[j].comments[k].meta.value == d["value"]
+                        assert (
+                            p.items[i].postings[j].comments[k].meta.value == d["value"]
+                        )

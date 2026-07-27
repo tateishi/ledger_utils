@@ -1,31 +1,35 @@
 import pytest
-from ledger_utils.parser import parse_inner_comment
+from ledger_utils import parser
 
-@pytest.mark.parametrize("line, expected", [
-    (
-        "     ; :urgent:tag1:",
-        {
-            "comment": ":urgent:tag1:",
-            "tags": ["urgent", "tag1"],
-        }
-    ),
-    (
-        "     ; :urgent:tag1:tag2:",
-        {
-            "comment": ":urgent:tag1:tag2:",
-            "tags": ["urgent", "tag1", "tag2"],
-        }
-    ),
-    (
-        "     ; pay_month: 2026-08",
-        {
-            "comment": "pay_month: 2026-08",
-            "meta": dict(name="pay_month", value="2026-08")
-        }
-    ),
-])
+
+@pytest.mark.parametrize(
+    "line, expected",
+    [
+        (
+            "     ; :urgent:tag1:",
+            {
+                "comment": ":urgent:tag1:",
+                "tags": ["urgent", "tag1"],
+            },
+        ),
+        (
+            "     ; :urgent:tag1:tag2:",
+            {
+                "comment": ":urgent:tag1:tag2:",
+                "tags": ["urgent", "tag1", "tag2"],
+            },
+        ),
+        (
+            "     ; pay_month: 2026-08",
+            {
+                "comment": "pay_month: 2026-08",
+                "meta": dict(name="pay_month", value="2026-08"),
+            },
+        ),
+    ],
+)
 def test_parse_inner_comment(line, expected):
-    p = parse_inner_comment(line)
+    p = parser.parse_inner_comment(line)
 
     assert p.comment == expected["comment"]
 
