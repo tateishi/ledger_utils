@@ -1,7 +1,7 @@
 from ledger_utils import parser, render, models
 
 
-def display_ledger(items: list[parser.LedgerItem]) -> str:
+def convert(items: list[parser.LedgerItem]) -> str:
     lines = list()
     for item in items:
         match item:
