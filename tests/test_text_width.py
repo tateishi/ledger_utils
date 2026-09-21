@@ -4,37 +4,43 @@ from ledger_utils import text
 
 
 @pytest.mark.parametrize(
-    "line, expected",
+    "input, expected",
     [
         (
             "abc",
-            {
-                "length": 3,
-                "width": 3,
-            },
+            3,
         ),
         (
             "あいう",
-            {
-                "length": 3,
-                "width": 6,
-            },
+            3,
         ),
         (
             "資産:現金:財布",
-            {
-                "length": 8,
-                "width": 14,
-            },
+            8,
         ),
     ],
 )
-def test_text_utils(line, expected):
-    actual_length = len(line)
-    actual_width = text.width.wcswidth(line)
+def test_text_length(input, expected):
+    actual = len(input)
+    assert actual == expected
 
-    if "length" in expected:
-        assert actual_length == expected["length"]
-
-    if "width" in expected:
-        assert actual_width == expected["width"]
+@pytest.mark.parametrize(
+    "input, expected",
+    [
+        (
+            "abc",
+            3,
+        ),
+        (
+            "あいう",
+            6,
+        ),
+        (
+            "資産:現金:財布",
+            14,
+        ),
+    ],
+)
+def test_text_width(input, expected):
+    actual = text.width.wcswidth(input)
+    assert actual == expected
