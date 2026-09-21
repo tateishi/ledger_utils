@@ -3,9 +3,9 @@ import re
 POSTING_RE = re.compile(
     r"""
     ^
-    (?P<prefix>.*?\s{2,})                 # account + 区切りスペース（ここは絶対に変更しない）
+    (?P<prefix>.*?\s{2,})                 # account + 区切りスペース
     (?P<amount>[+-]?[0-9,]+(?:\.[0-9]+)?) # 金額
-    (?P<suffix>.*)$                       # 通貨・コメント・末尾（ここも絶対に変更しない）
+    (?P<suffix>.*)$                       # 通貨・コメント・末尾
     """,
     re.VERBOSE,
 )
