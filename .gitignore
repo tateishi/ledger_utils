@@ -12,3 +12,4 @@ wheels/
 # environments
 .env
 .env.*
+.envrc
