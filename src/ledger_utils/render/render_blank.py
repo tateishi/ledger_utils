@@ -1,4 +1,4 @@
-from ledger_utils.models import (Blank)
+from ledger_utils.models import Blank
 
 
 def render_blank(token: Blank) -> str:

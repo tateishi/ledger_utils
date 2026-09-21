@@ -1,4 +1,4 @@
-from ledger_utils import parser, render, models
+from ledger_utils import models, parser, render
 
 
 def convert(items: list[parser.LedgerItem]) -> str:

@@ -3,7 +3,7 @@ from pathlib import Path
 import typer
 
 from . import comma_convert, plain_convert
-from .common import compute_output_path, convert_one_file, do_rewrite
+from .common import do_rewrite
 
 app = typer.Typer(help="Rewrite related command.")
 
@@ -53,13 +53,14 @@ def rewrite_comma(
         print(f"ERROR: input_dir is not a directory: {input_dir}", file=sys.stderr)
         return 2
 
-    print(f"rewrite_comma")
+    print("rewrite_comma")
     return do_rewrite(input_dir, output_dir, encoding, dry_run, comma_convert)
 
 @app.command("ast")
 def print_ast():
-    from ledger_utils.parser import parse_text
     from pprint import pprint
+
+    from ledger_utils.parser import parse_text
 
     filename = Path("~/wks/ledger/ledger_kakei/journal/kakei/cash/mother.ledger").expanduser()
     text = filename.read_text()

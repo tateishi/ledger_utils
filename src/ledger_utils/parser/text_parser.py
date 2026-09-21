@@ -1,10 +1,13 @@
 from dataclasses import dataclass, field
 
-from ledger_utils.models import (Blank, OuterComment, Header, InnerComment,
-                                 Posting)
-from ledger_utils.parser import (parse_blank, parse_outer_comment,
-                                 parse_header, parse_inner_comment,
-                                 parse_posting)
+from ledger_utils.models import Blank, Header, InnerComment, OuterComment, Posting
+from ledger_utils.parser import (
+    parse_blank,
+    parse_header,
+    parse_inner_comment,
+    parse_outer_comment,
+    parse_posting,
+)
 
 
 @dataclass

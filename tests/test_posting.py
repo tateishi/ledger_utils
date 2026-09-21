@@ -1,6 +1,7 @@
 from decimal import Decimal
 
 import pytest
+
 from ledger_utils import parser
 
 

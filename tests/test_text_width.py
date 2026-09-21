@@ -1,4 +1,5 @@
 import pytest
+
 from ledger_utils import text
 
 

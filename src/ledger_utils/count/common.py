@@ -1,6 +1,8 @@
-from pathlib import Path
 from collections import Counter
+from pathlib import Path
 from typing import Callable
+
+import typer
 
 from ..tools import iter_files_recursively
 
@@ -20,7 +22,7 @@ def report_count(
 
     if path.is_file():
         data = count_func(path)
-        print_result(date, header)
+        print_result(data, header)
         return
 
     if path.is_dir():

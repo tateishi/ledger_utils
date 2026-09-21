@@ -1,8 +1,9 @@
 import re
 
 from ledger_utils.models import InnerComment
-from .tags_parser import parse_tags
+
 from .meta_parser import parse_meta
+from .tags_parser import parse_tags
 
 INNER_COMMENT_RE = re.compile(
     r"""

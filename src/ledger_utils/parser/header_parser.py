@@ -1,7 +1,6 @@
 import re
-from datetime import datetime
 
-from ledger_utils.models import Header, Meta, Tag
+from ledger_utils.models import Header
 
 from .meta_parser import parse_meta
 from .tags_parser import parse_tags

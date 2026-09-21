@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
-from .tag import Tag
 from .meta import Meta
+from .tag import Tag
+
 
 @dataclass
 class InnerComment:

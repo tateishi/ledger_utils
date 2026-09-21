@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from decimal import Decimal
 
-from .tag import Tag
 from .meta import Meta
+from .tag import Tag
 
 
 @dataclass

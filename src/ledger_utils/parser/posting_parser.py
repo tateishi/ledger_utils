@@ -1,6 +1,6 @@
 import re
 
-from ledger_utils.models import Meta, Posting, Tag
+from ledger_utils.models import Posting
 
 from .meta_parser import parse_meta
 from .tags_parser import parse_tags

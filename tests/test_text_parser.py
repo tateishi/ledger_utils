@@ -1,8 +1,9 @@
 import textwrap
-from datetime import date, datetime
+from datetime import date
 from decimal import Decimal
 
 import pytest
+
 from ledger_utils.parser import parse_text
 
 

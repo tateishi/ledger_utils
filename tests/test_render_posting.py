@@ -1,5 +1,6 @@
 import pytest
-from ledger_utils import models, render, rewrite
+
+from ledger_utils import models, render
 
 
 @pytest.mark.parametrize(
