@@ -7,8 +7,9 @@ META_RE = re.compile(
     (?P<name>[^:]+):
     (?:\s*(?P<value>.+))
     """,
-    re.VERBOSE
+    re.VERBOSE,
 )
+
 
 def parse_meta(text: str) -> Meta | None:
     if not isinstance(text, str):

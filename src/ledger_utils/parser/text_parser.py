@@ -15,38 +15,48 @@ class BlankPart:
     """
     トランザクションの間のコメント・空白行（ファイル先頭・末尾含む）
     """
+
     item: OuterComment | Blank
+
 
 @dataclass
 class HeaderPart:
     """
     トランザクションヘッダーとコメント
     """
+
     header: Header
     comments: list[InnerComment]
+
 
 @dataclass
 class PostingPart:
     """
     ポスティング一つ分のデータ
     """
+
     posting: Posting
     comments: list[InnerComment]
+
 
 @dataclass
 class TransactionPart:
     """
     トランザクション一つ分のデータ
     """
+
     header: HeaderPart
     postings: list[PostingPart]
+
 
 @dataclass
 class LedgerItem:
     """
     上記のファイル要素のunion
     """
+
     item: BlankPart | TransactionPart
+
 
 @dataclass
 class Context:
@@ -54,7 +64,7 @@ class Context:
     items: list[LedgerItem] = field(default_factory=list)
 
 
-def parse_text(text: str, filename: str | None=None):
+def parse_text(text: str, filename: str | None = None):
     ctx = Context()
 
     header: HeaderPart = None
@@ -252,7 +262,9 @@ def parse_text(text: str, filename: str | None=None):
                             postings.append(posting)
                             posting = None
 
-                            transaction = TransactionPart(header=header, postings=postings)
+                            transaction = TransactionPart(
+                                header=header, postings=postings
+                            )
                             transactions.append(transaction)
                             header = None
                             postings = []

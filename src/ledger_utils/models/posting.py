@@ -20,7 +20,7 @@ class Posting:
 
     def __post_init__(self):
         if self.amount is not None:
-            amount = self.amount.replace(",","")
+            amount = self.amount.replace(",", "")
             self.amount = Decimal(amount)
 
     @property

@@ -7,14 +7,6 @@ from ledger_utils import parser
 app = typer.Typer(help="Format related command.")
 
 
-@app.command("raw")
-def raw(path: Path):
-    if path.suffix == ".ledger":
-        text = path.read_text()
-        converted = raw_convert(text)
-        print(converted)
-
-
 @app.command("parse")
 def parse(path: Path):
     from pprint import pprint

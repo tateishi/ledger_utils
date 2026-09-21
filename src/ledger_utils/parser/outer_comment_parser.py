@@ -9,12 +9,12 @@ OUTER_COMMENT_RE = re.compile(
     (?:(?P<comment>.*))
     $
     """,
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 
 def parse_outer_comment(
-    text: str, line_no: int | None=None, filename: str | None=None
+    text: str, line_no: int | None = None, filename: str | None = None
 ) -> OuterComment:
     m = OUTER_COMMENT_RE.match(text)
     if not m:

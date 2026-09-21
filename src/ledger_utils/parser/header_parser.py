@@ -36,5 +36,5 @@ def parse_header(
         filename=filename,
         tags=tags,
         meta=meta,
-        **m.groupdict()
+        **m.groupdict(),
     )

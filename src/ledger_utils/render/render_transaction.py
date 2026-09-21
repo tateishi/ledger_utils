@@ -1,7 +1,7 @@
 # from ledger_utils.parser import TransactionPart
 from ledger_utils import parser, render
 
-#from .display import display_posting_comment
+# from .display import display_posting_comment
 
 
 def render_transaction(token: parser.TransactionPart) -> list[str]:

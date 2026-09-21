@@ -15,7 +15,9 @@ COMMENT_RE = re.compile(
 TAG_RE = re.compile(
     r"""
     \s*:(?P<tags>.+):
-    """)
+    """
+)
+
 
 def counter(text: str) -> dict[str, int]:
     """
@@ -53,6 +55,7 @@ def count(path: Path) -> dict[str, int]:
 
     text = path.read_text()
     return counter(text)
+
 
 def report(path: Path):
     report_count(path, "count  tags", count)

@@ -21,11 +21,12 @@ POSTING_RE = re.compile(
     )
     \s*$
     """,
-    re.VERBOSE
+    re.VERBOSE,
 )
 
+
 def parse_posting(
-        text: str, line_no: int | None=None, filename: str | None=None
+    text: str, line_no: int | None = None, filename: str | None = None
 ) -> Posting:
     m = POSTING_RE.match(text)
     if not m:
@@ -40,5 +41,5 @@ def parse_posting(
         filename=filename,
         tags=tags,
         meta=meta,
-        **m.groupdict()
+        **m.groupdict(),
     )

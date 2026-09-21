@@ -24,6 +24,7 @@ def test_text_length(input, expected):
     actual = len(input)
     assert actual == expected
 
+
 @pytest.mark.parametrize(
     "input, expected",
     [

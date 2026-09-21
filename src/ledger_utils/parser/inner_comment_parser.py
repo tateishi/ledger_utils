@@ -12,12 +12,12 @@ INNER_COMMENT_RE = re.compile(
     (?:\s*(?P<comment>.*))
     $
     """,
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 
 def parse_inner_comment(
-    text: str, line_no: int | None=None, filename: str | None=None
+    text: str, line_no: int | None = None, filename: str | None = None
 ) -> InnerComment:
     m = INNER_COMMENT_RE.match(text)
     if not m:
