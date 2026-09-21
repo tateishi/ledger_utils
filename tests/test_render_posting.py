@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 import pytest
 
 from ledger_utils import models, render
