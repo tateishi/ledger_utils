@@ -30,11 +30,11 @@ from ledger_utils import text
     ],
 )
 def test_text_utils(line, expected):
-    l = len(line)
-    w = text.width.wcswidth(line)
+    actual_length = len(line)
+    actual_width = text.width.wcswidth(line)
 
     if "length" in expected:
-        assert l == expected["length"]
+        assert actual_length == expected["length"]
 
     if "width" in expected:
-        assert w == expected["width"]
+        assert actual_width == expected["width"]
