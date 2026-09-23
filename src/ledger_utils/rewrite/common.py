@@ -1,6 +1,6 @@
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 from ..tools import iter_files_recursively
 

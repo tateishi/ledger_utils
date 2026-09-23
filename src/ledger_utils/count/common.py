@@ -1,6 +1,6 @@
 from collections import Counter
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 import typer
 

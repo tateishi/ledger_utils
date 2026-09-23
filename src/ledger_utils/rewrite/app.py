@@ -46,6 +46,7 @@ DryRunOption = Annotated[
     ),
 ]
 
+
 @app.command("plain")
 def rewrite_plain(
     input_dir: InputDirOption = None,
