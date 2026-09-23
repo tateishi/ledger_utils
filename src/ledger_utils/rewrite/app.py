@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from typing import Annotated
 
 import typer
 
@@ -9,21 +10,48 @@ from .common import do_rewrite
 app = typer.Typer(help="Rewrite related command.")
 
 
-@app.command("plain")
-def rewrite_plain(
-    input_dir: Path = typer.Option(None, "-i", "--input_dir", help="入力ディレクトリ"),
-    output_dir: Path = typer.Option(
-        None,
+InputDirOption = Annotated[
+    Path | None,
+    typer.Option(
+        "-i",
+        "--input_dir",
+        help="入力ディレクトリ",
+    ),
+]
+
+OutputDirOption = Annotated[
+    Path | None,
+    typer.Option(
         "-o",
         "--output_dir",
         help="出力ディレクトリ（未指定なら入力ファイルを上書き）",
     ),
-    encoding: str = typer.Option(
-        "utf-8", "-e", "--encoding", help="読み書きの文字コード（デフォルト: utf-8）"
+]
+
+EncodingOption = Annotated[
+    str,
+    typer.Option(
+        "-e",
+        "--encoding",
+        help="読み書きの文字コード",
     ),
-    dry_run: bool = typer.Option(
-        False, "-n", "--dry-run", help="書き込みせず、変換対象だけ表示"
+]
+
+DryRunOption = Annotated[
+    bool,
+    typer.Option(
+        "-n",
+        "--dry-run",
+        help="書き込みせず、変換対象だけ表示",
     ),
+]
+
+@app.command("plain")
+def rewrite_plain(
+    input_dir: InputDirOption = None,
+    output_dir: OutputDirOption = None,
+    encoding: EncodingOption = "utf-8",
+    dry_run: DryRunOption = False,
 ) -> int:
 
     if input_dir is None:
@@ -35,19 +63,10 @@ def rewrite_plain(
 
 @app.command("comma")
 def rewrite_comma(
-    input_dir: Path = typer.Option(None, "-i", "--input_dir", help="入力ディレクトリ"),
-    output_dir: Path = typer.Option(
-        None,
-        "-o",
-        "--output_dir",
-        help="出力ディレクトリ（未指定なら入力ファイルを上書き）",
-    ),
-    encoding: str = typer.Option(
-        "utf-8", "-e", "--encoding", help="読み書きの文字コード（デフォルト: utf-8）"
-    ),
-    dry_run: bool = typer.Option(
-        False, "-n", "--dry-run", help="書き込みせず、変換対象だけ表示"
-    ),
+    input_dir: InputDirOption = None,
+    output_dir: OutputDirOption = None,
+    encoding: EncodingOption = "utf-8",
+    dry_run: DryRunOption = False,
 ) -> int:
 
     if input_dir is None:
